@@ -43,7 +43,7 @@ public class Configuration {
                 switch (toml.getString("send-mode", "invalid").toLowerCase(Locale.ROOT)) {
                     case "random": this.sendMode =  SendMode.RANDOM; break;
                     case "first_available": this.sendMode = SendMode.FIRST_AVAILABLE; break;
-                    case "first_empty": this.sendMode = SendMode.FIRST_EMPTY; break;
+                    case "emptiest": this.sendMode = SendMode.EMPTIEST; break;
                     default: this.sendMode = SendMode.RANDOM;
                 }
             } else {

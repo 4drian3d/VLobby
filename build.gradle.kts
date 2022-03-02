@@ -17,8 +17,7 @@ dependencies {
 group = "me.dreamerzero.vlobby"
 version = "1.0.0"
 description = "Lobby features"
-//TODO: Replace this
-val url = "aea"
+val url = "https://github.com/4drian3d/VLobby"
 val id = "vlobby"
 
 java.sourceCompatibility = JavaVersion.VERSION_11

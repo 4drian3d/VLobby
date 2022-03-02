@@ -7,7 +7,6 @@ servers = ["lobby1", "lobby2"]
 # Send Mode
 # RANDOM: It will send the player to a random server among the configured ones
 # FIRST_AVAILABLE: It will send the player to the first available server
-# FIRST_EMPTY: It will send the player to the first available empty server
 # EMPTIEST: Send the player to the server with the least amount of players
 send-mode = "RANDOM"
 

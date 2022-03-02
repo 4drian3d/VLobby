@@ -17,7 +17,6 @@ public final class ServerUtils {
         switch(plugin.getConfig().getServerOptions().getSendMode()){
             case RANDOM: server = getRandomServer(plugin); break;
             case FIRST_AVAILABLE: server = getFirstServer(plugin); break;
-            case FIRST_EMPTY: server = getFirstEmpty(plugin); break;
             case EMPTIEST: server = getEmptiestServer(plugin); break;
         }
         if(server != null) return server;
@@ -25,6 +24,7 @@ public final class ServerUtils {
             ? getFirstServer(plugin)
             : getRandomServer(plugin);
     }
+
     public static RegisteredServer getRandomServer(VLobby plugin){
         final String[] servers = plugin.getConfig().getServerOptions().getLobbyServers();
         for(int i = 0; i < servers.length; i++){
@@ -36,8 +36,8 @@ public final class ServerUtils {
     }
 
     public static RegisteredServer getFirstServer(VLobby plugin){
-        for(String st : plugin.getConfig().getServerOptions().getLobbyServers()){
-            Optional<RegisteredServer> sv = plugin.getProxy().getServer(st);
+        for(String lobby : plugin.getConfig().getServerOptions().getLobbyServers()){
+            Optional<RegisteredServer> sv = plugin.getProxy().getServer(lobby);
             if(sv.isPresent()) return sv.get();
         }
         return null;
@@ -45,13 +45,14 @@ public final class ServerUtils {
 
     public static RegisteredServer getEmptiestServer(VLobby plugin){
         RegisteredServer emptiest = null;
-        for(String st : plugin.getConfig().getServerOptions().getLobbyServers()){
-            Optional<RegisteredServer> sv = plugin.getProxy().getServer(st);
+        for(String lobby : plugin.getConfig().getServerOptions().getLobbyServers()){
+            Optional<RegisteredServer> sv = plugin.getProxy().getServer(lobby);
             if(sv.isPresent()) {
                 RegisteredServer actualsv = sv.get();
                 if(emptiest == null)
                     emptiest = actualsv;
                 else {
+                    if(actualsv.getPlayersConnected().isEmpty()) return actualsv;
                     if(actualsv.getPlayersConnected().size() < emptiest.getPlayersConnected().size()){
                         emptiest = actualsv;
                     }
@@ -62,8 +63,8 @@ public final class ServerUtils {
     }
 
     public static RegisteredServer getFirstEmpty(VLobby plugin){
-        for(String st : plugin.getConfig().getServerOptions().getLobbyServers()){
-            Optional<RegisteredServer> optSv = plugin.getProxy().getServer(st);
+        for(String lobby : plugin.getConfig().getServerOptions().getLobbyServers()){
+            Optional<RegisteredServer> optSv = plugin.getProxy().getServer(lobby);
             if(optSv.isPresent()){
                 RegisteredServer sv = optSv.get();
                 if(sv.getPlayersConnected().isEmpty()) return sv;
