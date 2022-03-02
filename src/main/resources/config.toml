@@ -1,0 +1,18 @@
+# Lobby Commands
+commands = ["lobby", "hub"]
+
+[servers]
+# Lobby Servers
+servers = ["lobby1", "lobby2"]
+# Send Mode
+# RANDOM: It will send the player to a random server among the configured ones
+# FIRST_AVAILABLE: It will send the player to the first available server
+# FIRST_EMPTY: It will send the player to the first available empty server
+# EMPTIEST: Send the player to the server with the least amount of players
+send-mode = "RANDOM"
+
+[messages]
+succesfully = "<red>You have been successfully sent to the lobby <server>"
+error = "<red>You could not be transported to the server <server>"
+not-available-server = "<red>No lobby servers available now, try again later"
+console-message = "The console could not be teleported to the lobby"
