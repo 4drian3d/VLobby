@@ -76,7 +76,7 @@ public final class VLobby {
         }
         Path configPath = pluginPath.resolve("config.toml");
         if(!Files.exists(configPath)){
-            try (InputStream in = getClass().getResourceAsStream("config.toml")){
+            try (InputStream in = this.getClass().getClassLoader().getResourceAsStream("config.toml")){
                 Files.copy(in, configPath);
             } catch(IOException e){
                 return null;
