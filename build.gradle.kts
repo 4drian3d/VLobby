@@ -10,7 +10,6 @@ repositories {
 
 dependencies {
     compileOnly("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
-    compileOnly("net.kyori:adventure-text-minimessage:4.10.0")
     annotationProcessor("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
 }
 
