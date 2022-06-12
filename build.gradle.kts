@@ -14,7 +14,7 @@ dependencies {
 }
 
 group = "me.dreamerzero.vlobby"
-version = "1.0.0"
+version = "1.0.1"
 description = "Lobby features"
 val url = "https://github.com/4drian3d/VLobby"
 val id = "vlobby"

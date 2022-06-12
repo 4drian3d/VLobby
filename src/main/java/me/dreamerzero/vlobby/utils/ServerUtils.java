@@ -28,7 +28,7 @@ public final class ServerUtils {
     public static RegisteredServer getRandomServer(VLobby plugin){
         final String[] servers = plugin.getConfig().getServerOptions().getLobbyServers();
         for(int i = 0; i < servers.length; i++){
-            String server = servers[rm.nextInt(servers.length)-1];
+            String server = servers[rm.nextInt(servers.length-1)];
             Optional<RegisteredServer> sv = plugin.getProxy().getServer(server);
             if(sv.isPresent()) return sv.get();
         }
