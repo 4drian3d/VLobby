@@ -1,35 +1,39 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    java
-    id("net.kyori.blossom") version "1.3.0"
+    id("net.kyori.blossom") version "1.3.1"
+    id("xyz.jpenilla.run-velocity") version "2.0.0"
+    kotlin("jvm") version "1.7.21"
+    //kotlin("kapt") version "1.7.21"
 }
 
 repositories {
-    mavenLocal()
     maven("https://repo.papermc.io/repository/maven-public/")
 }
 
 dependencies {
+    compileOnly(kotlin("stdlib", "1.7.21"))
     compileOnly("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
-    annotationProcessor("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
+    //kapt("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
 }
 
-group = "me.dreamerzero.vlobby"
-version = "1.0.1"
-description = "Lobby features"
 val url = "https://github.com/4drian3d/VLobby"
 val id = "vlobby"
 
-java.sourceCompatibility = JavaVersion.VERSION_11
-
-blossom{
-	val constants = "src/main/java/me/dreamerzero/vlobby/utils/Constants.java"
-	replaceToken("{name}", rootProject.name, constants)
-    replaceToken("{id}", id, constants)
-	replaceToken("{version}", version, constants)
-	replaceToken("{description}", description, constants)
-    replaceToken("{url}", url, constants)
+blossom {
+    replaceTokenIn("src/main/kotlin/me/adrian3d/vlobby/utils/Constants.kt")
+	replaceToken("{name}", rootProject.name)
+    replaceToken("{id}", id)
+	replaceToken("{version}", project.version)
+	replaceToken("{description}", project.description)
+    replaceToken("{url}", url)
 }
 
-tasks.withType<JavaCompile>() {
-    options.encoding = "UTF-8"
+tasks{
+    runVelocity {
+        velocityVersion("3.1.2-SNAPSHOT")
+    }
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "17"
+    }
 }
