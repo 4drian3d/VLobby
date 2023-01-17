@@ -2,7 +2,6 @@ package me.adrian3d.vlobby.commands
 
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import com.mojang.brigadier.context.CommandContext
 import com.velocitypowered.api.command.BrigadierCommand
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.permission.Tristate
@@ -13,13 +12,13 @@ import me.adrian3d.vlobby.extensions.sendMiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 
 fun loadCommand(plugin: VLobby) {
-    val aliases = plugin.config.commands.toTypedArray()
+    val aliases = plugin.config.commands
     if (aliases.isEmpty()) {
         return
     }
     val lobbyCommand = LiteralArgumentBuilder.literal<CommandSource>(aliases[0])
         .requires { it.getPermissionValue("vlobby.command") != Tristate.FALSE }
-        .executes { cmd: CommandContext<CommandSource> ->
+        .executes { cmd ->
             val source = cmd.source
             if (source !is Player) {
                 plugin.logger.info(plugin.config.messages.consoleMessage)
@@ -44,7 +43,7 @@ fun loadCommand(plugin: VLobby) {
                     val server = result.attemptedConnection
                     if (result.isSuccessful) {
                         source.sendMiniMessage(
-                            plugin.config.messages.succesfullyMessage,
+                            plugin.config.messages.successfullyMessage,
                             Placeholder.unparsed(
                                 "server",
                                 server.serverInfo.name
@@ -68,7 +67,7 @@ fun loadCommand(plugin: VLobby) {
     val manager = plugin.proxy.commandManager
     val builder = manager.metaBuilder(bCommand).plugin(plugin)
     if (aliases.size > 1) {
-        builder.aliases(*aliases.copyOfRange(1, aliases.size - 1))
+        builder.aliases(*aliases.toTypedArray().copyOfRange(1, aliases.size))
     }
     manager.register(builder.build(), bCommand)
 }
