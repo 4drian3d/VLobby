@@ -37,7 +37,7 @@ class Configuration(toml: Toml) {
     class Messages(toml: Toml?) {
         val errorMessage: String
         val notAvailableServerMessage: String
-        val succesfullyMessage: String
+        val successfullyMessage: String
         val consoleMessage: String
 
         init {
@@ -45,13 +45,13 @@ class Configuration(toml: Toml) {
                 errorMessage = toml.getString("error", "<red>You could not be transported to the server <server>")
                 notAvailableServerMessage =
                     toml.getString("not-available-server", "<red>No lobby servers available now, try again later")
-                succesfullyMessage =
+                successfullyMessage =
                     toml.getString("succesfully", "<red>You have been successfully sent to the lobby <server>")
                 consoleMessage = toml.getString("console-message", "The console could not be teleported to the lobby")
             } else {
                 errorMessage = "<red>You could not be transported to the server <server>"
                 notAvailableServerMessage = "<red>No lobby servers available now, try again later"
-                succesfullyMessage = "<red>You have been successfully sent to the lobby <server>"
+                successfullyMessage = "<red>You have been successfully sent to the lobby <server>"
                 consoleMessage = "The console could not be teleported to the lobby"
             }
         }
