@@ -1,7 +1,7 @@
-package me.adrian3d.vlobby.enums
+package me.adrianed.vlobby.enums
 
 import com.velocitypowered.api.proxy.server.RegisteredServer
-import me.adrian3d.vlobby.VLobby
+import me.adrianed.vlobby.VLobby
 import java.util.*
 
 enum class SendMode {

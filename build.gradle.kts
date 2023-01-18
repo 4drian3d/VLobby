@@ -1,38 +1,67 @@
 plugins {
     kotlin("jvm") version "1.7.22"
     kotlin("kapt") version "1.7.22"
-    id("net.kyori.blossom") version "1.3.1"
-    id("xyz.jpenilla.run-velocity") version "2.0.0"
+    alias(libs.plugins.blossom)
+    alias(libs.plugins.runvelocity)
+    alias(libs.plugins.shadow)
 }
 
 repositories {
-    maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.papermc.io/repository/maven-public/") {
+        content {
+            includeGroup("com.velocitypowered")
+        }
+    }
+    maven("https://jitpack.io") {
+        content {
+            includeGroup("com.github.AlessioDP.libby")
+        }
+    }
+    mavenCentral()
 }
 
 dependencies {
     compileOnly(kotlin("stdlib", "1.7.21"))
-    compileOnly("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
-    kapt("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
+    compileOnly(libs.velocity)
+    kapt(libs.velocity)
+    compileOnly(libs.configurate)
+    implementation(libs.libby)
+    implementation(libs.bstats)
 }
 
-val url = "https://github.com/4drian3d/VLobby"
-val id = "vlobby"
+val url: String by project
+val id: String by project
 
 blossom {
-    replaceTokenIn("src/main/kotlin/me/adrian3d/vlobby/utils/Constants.kt")
-	replaceToken("{name}", rootProject.name)
+    replaceTokenIn("src/main/kotlin/me/adrianed/vlobby/utils/Constants.kt")
+    replaceToken("{name}", rootProject.name)
     replaceToken("{id}", id)
-	replaceToken("{version}", project.version)
-	replaceToken("{description}", project.description)
+    replaceToken("{version}", project.version)
+    replaceToken("{description}", project.description)
     replaceToken("{url}", url)
+    replaceToken("{configurate}", libs.versions.configurate.get())
+    replaceToken("{geantyref}", libs.versions.geantyref.get())
 }
 
 tasks{
+    build {
+        dependsOn(shadowJar)
+    }
     runVelocity {
-        velocityVersion("3.1.2-SNAPSHOT")
+        velocityVersion(libs.versions.velocity.get())
     }
     compileKotlin {
         kotlinOptions.jvmTarget = "17"
+    }
+    shadowJar {
+        arrayOf(
+            "org.spongepowered",
+            "net.byteflux",
+            "io.leangen.geantyref",
+            "org.bstats"
+        ).forEach {
+            relocate(it, "me.adrianed.vlobby.libs.$it")
+        }
     }
 }
 

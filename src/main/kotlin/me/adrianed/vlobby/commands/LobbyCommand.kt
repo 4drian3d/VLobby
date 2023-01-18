@@ -1,4 +1,4 @@
-package me.adrian3d.vlobby.commands
+package me.adrianed.vlobby.commands
 
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
@@ -6,9 +6,10 @@ import com.velocitypowered.api.command.BrigadierCommand
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.permission.Tristate
 import com.velocitypowered.api.proxy.Player
-import me.adrian3d.vlobby.VLobby
-import me.adrian3d.vlobby.enums.SendMode
-import me.adrian3d.vlobby.extensions.sendMiniMessage
+import me.adrianed.vlobby.VLobby
+import me.adrianed.vlobby.enums.SendMode
+import me.adrianed.vlobby.extensions.nil
+import me.adrianed.vlobby.extensions.sendMiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 
 fun loadCommand(plugin: VLobby) {
@@ -24,7 +25,7 @@ fun loadCommand(plugin: VLobby) {
                 plugin.logger.info(plugin.config.messages.consoleMessage)
                 return@executes Command.SINGLE_SUCCESS
             }
-            val mode: SendMode = plugin.config.servers.sendMode
+            val mode = plugin.config.servers.sendMode
             var lobbyToSend = mode.getServer(plugin)
             if (lobbyToSend == null)
                 lobbyToSend =
@@ -36,6 +37,11 @@ fun loadCommand(plugin: VLobby) {
             if (lobbyToSend == null) {
                 plugin.logger.error("Cannot found lobby server to send")
                 source.sendMiniMessage(plugin.config.messages.notAvailableServerMessage)
+                return@executes Command.SINGLE_SUCCESS
+            }
+            if (lobbyToSend.serverInfo.name == source.currentServer.nil?.serverInfo?.name) {
+                TODO("b")
+                source.sendMiniMessage(plugin.config.messages.consoleMessage)
                 return@executes Command.SINGLE_SUCCESS
             }
             source.createConnectionRequest(lobbyToSend).connect()
