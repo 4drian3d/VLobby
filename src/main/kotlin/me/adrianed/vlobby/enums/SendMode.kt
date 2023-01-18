@@ -7,7 +7,7 @@ import java.util.*
 enum class SendMode {
     RANDOM {
         override fun getServer(plugin: VLobby): RegisteredServer? {
-            val servers = plugin.config.servers.lobbyServers
+            val servers = plugin.config.regularHandler.lobbyServers
             for (i in servers.indices) {
                 val serverName = servers[rm.nextInt(servers.size - 1)]
                 val server = plugin.proxy.getServer(serverName)
@@ -18,7 +18,7 @@ enum class SendMode {
     },
     FIRST_AVAILABLE {
         override fun getServer(plugin: VLobby): RegisteredServer? {
-            for (lobby in plugin.config.servers.lobbyServers) {
+            for (lobby in plugin.config.regularHandler.lobbyServers) {
                 val server = plugin.proxy.getServer(lobby)
                 if (server.isPresent) return server.get()
             }
@@ -28,7 +28,7 @@ enum class SendMode {
     EMPTIEST {
         override fun getServer(plugin: VLobby): RegisteredServer? {
             var emptiest: RegisteredServer? = null
-            for (lobby in plugin.config.servers.lobbyServers) {
+            for (lobby in plugin.config.regularHandler.lobbyServers) {
                 val sv = plugin.proxy.getServer(lobby)
                 if (sv.isPresent) {
                     val actual = sv.get()

@@ -1,35 +1,37 @@
 package me.adrianed.vlobby.configuration;
 
+import me.adrianed.vlobby.enums.Handler;
 import me.adrianed.vlobby.enums.SendMode;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 import java.util.List;
+import java.util.Map;
 
 // This specific class uses Java and not kotlin
 // because of a kotlin bug in the text blocks inside annotations.
 @SuppressWarnings("all")
 @ConfigSerializable
-public class Configuration {
-    public Servers getServers() {
-        return servers;
+public class Configuration implements Section {
+    private Handler commandHandler = Handler.REGULAR;
+    private RegularHandler regularHandler = new RegularHandler();
+    private CommandToServerHandler commandToServerHandler = new CommandToServerHandler();
+
+    public Handler getCommandHandler() {
+        return commandHandler;
     }
 
-    public List<String> getCommands() {
-        return commands;
+    public RegularHandler getRegularHandler() {
+        return regularHandler;
     }
 
-    public Messages getMessages() {
-        return messages;
+    public CommandToServerHandler getCommandToServerHandler() {
+        return commandToServerHandler;
     }
-
-    private Servers servers = new Servers();
-    private List<String> commands = List.of("lobby", "hub");
-    private Messages messages = new Messages();
-
     @ConfigSerializable
-    public static class Servers {
+    public static class RegularHandler {
         private List<String> lobbyServers = List.of("lobby");
+        private List<String> commands = List.of("lobby", "hub");
         @Comment("""
             Send Mode Formula
             RANDOM: It will send the player to a random server among the configured ones
@@ -45,34 +47,21 @@ public class Configuration {
             return sendMode;
         }
 
+        public List<String> getCommands() {
+            return commands;
+        }
+
     }
 
     @ConfigSerializable
-    public static class Messages {
-        private String errorMessage = "<red>You could not be transported to the server <server>";
-        private String notAvailableServerMessage = "<red>No lobby servers available now, try again later";
-        private String successfullyMessage = "<red>You have been successfully sent to the lobby <server>";
-        private String consoleMessage = "The console could not be teleported to the lobby";
-        private String alreadyInThisLobby = "<red>You are already in the Lobby";
-        public String getErrorMessage() {
-            return errorMessage;
-        }
+    public static class CommandToServerHandler {
+        private Map<String, String> commandToServerAliases = Map.of(
+                "lobby", "lobby1",
+                "hub", "lobby2"
+        );
 
-        public String getNotAvailableServerMessage() {
-            return notAvailableServerMessage;
+        public Map<String, String> getCommandToServerAliases() {
+            return commandToServerAliases;
         }
-
-        public String getSuccessfullyMessage() {
-            return successfullyMessage;
-        }
-
-        public String getConsoleMessage() {
-            return consoleMessage;
-        }
-
-        public String getAlreadyInThisLobby() {
-            return alreadyInThisLobby;
-        }
-
     }
 }

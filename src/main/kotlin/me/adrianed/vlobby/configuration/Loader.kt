@@ -1,24 +1,23 @@
 package me.adrianed.vlobby.configuration
 
-import org.spongepowered.configurate.ConfigurateException
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader
 import java.nio.file.Path
 import kotlin.jvm.Throws
 
-@Throws(ConfigurateException::class)
-fun loadConfig(path: Path): Configuration {
+@Throws(Exception::class)
+inline fun <reified S: Section> loadConfig(path: Path): S {
     val loader = HoconConfigurationLoader.builder()
         .defaultOptions { opts ->
             opts
                 .shouldCopyDefaults(true)
                 .header("VLobby | by 4drian3d\n")
         }
-        .path(path.resolve("config.conf"))
+        .path(path.resolve("${S::class.simpleName!!.lowercase()}.conf"))
         .build()
 
     val node = loader.load()
-    val config = node.get(Configuration::class.java)
-    node.set(Configuration::class.java, config)
+    val config = node.get(S::class.java)
+    node.set(S::class.java, config)
     loader.save(node)
 
     return config!!
