@@ -40,8 +40,7 @@ fun loadCommand(plugin: VLobby) {
                 return@executes Command.SINGLE_SUCCESS
             }
             if (lobbyToSend.serverInfo.name == source.currentServer.nil?.serverInfo?.name) {
-                TODO("b")
-                source.sendMiniMessage(plugin.config.messages.consoleMessage)
+                source.sendMiniMessage(plugin.config.messages.alreadyInThisLobby)
                 return@executes Command.SINGLE_SUCCESS
             }
             source.createConnectionRequest(lobbyToSend).connect()

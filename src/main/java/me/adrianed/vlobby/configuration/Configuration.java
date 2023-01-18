@@ -29,6 +29,14 @@ public class Configuration {
 
     @ConfigSerializable
     public static class Servers {
+        private List<String> lobbyServers = List.of("lobby");
+        @Comment("""
+            Send Mode Formula
+            RANDOM: It will send the player to a random server among the configured ones
+            FIRST_AVAILABLE: It will send the player to the first available server
+            EMPTIEST: Send the player to the server with the least amount of players""")
+        private SendMode sendMode = SendMode.RANDOM;
+
         public List<String> getLobbyServers() {
             return lobbyServers;
         }
@@ -37,17 +45,15 @@ public class Configuration {
             return sendMode;
         }
 
-        private List<String> lobbyServers = List.of("lobby");
-        @Comment("""
-            Send Mode Formula
-            RANDOM: It will send the player to a random server among the configured ones
-            FIRST_AVAILABLE: It will send the player to the first available server
-            EMPTIEST: Send the player to the server with the least amount of players""")
-        private SendMode sendMode = SendMode.RANDOM;
     }
 
     @ConfigSerializable
     public static class Messages {
+        private String errorMessage = "<red>You could not be transported to the server <server>";
+        private String notAvailableServerMessage = "<red>No lobby servers available now, try again later";
+        private String successfullyMessage = "<red>You have been successfully sent to the lobby <server>";
+        private String consoleMessage = "The console could not be teleported to the lobby";
+        private String alreadyInThisLobby = "<red>You are already in the Lobby";
         public String getErrorMessage() {
             return errorMessage;
         }
@@ -64,9 +70,9 @@ public class Configuration {
             return consoleMessage;
         }
 
-        private String errorMessage = "<red>You could not be transported to the server <server>";
-        private String notAvailableServerMessage = "<red>No lobby servers available now, try again later";
-        private String successfullyMessage = "<red>You have been successfully sent to the lobby <server>";
-        private String consoleMessage = "The console could not be teleported to the lobby";
+        public String getAlreadyInThisLobby() {
+            return alreadyInThisLobby;
+        }
+
     }
 }
