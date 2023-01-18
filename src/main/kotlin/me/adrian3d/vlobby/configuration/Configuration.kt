@@ -46,7 +46,7 @@ class Configuration(toml: Toml) {
                 notAvailableServerMessage =
                     toml.getString("not-available-server", "<red>No lobby servers available now, try again later")
                 successfullyMessage =
-                    toml.getString("succesfully", "<red>You have been successfully sent to the lobby <server>")
+                    toml.getString("successfully", "<red>You have been successfully sent to the lobby <server>")
                 consoleMessage = toml.getString("console-message", "The console could not be teleported to the lobby")
             } else {
                 errorMessage = "<red>You could not be transported to the server <server>"
