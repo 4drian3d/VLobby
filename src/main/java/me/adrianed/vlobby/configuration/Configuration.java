@@ -13,8 +13,24 @@ import java.util.Map;
 @SuppressWarnings("all")
 @ConfigSerializable
 public class Configuration implements Section {
+    @Comment("""
+            Set the Handler to use in the plugin
+            Available options:
+            - REGULAR
+              | Default Handler
+              | Configurable in regularHandler section
+              | Multiple commands to try to move a user to multiple/single Lobby servers
+            - COMMAND_TO_SERVER
+              | Configurable in commandToServerHandler section
+              | Allows you to set one command for each lobby you have""")
     private Handler commandHandler = Handler.REGULAR;
+    @Comment("""
+            Configures the default Handler
+            Allows you to set a single command with multiple aliases
+            to send the player to a server within the lobby group
+            according to the configured SendMode""")
     private RegularHandler regularHandler = new RegularHandler();
+    @Comment("Configure customized commands for each of your lobbies")
     private CommandToServerHandler commandToServerHandler = new CommandToServerHandler();
 
     public Handler getCommandHandler() {
@@ -30,7 +46,9 @@ public class Configuration implements Section {
     }
     @ConfigSerializable
     public static class RegularHandler {
-        private List<String> lobbyServers = List.of("lobby");
+        @Comment("List of your Lobby servers")
+        private List<String> lobbyServers = List.of("lobby", "lobby1", "hub");
+        @Comment("Alias for the command that will send the player to the Lobby")
         private List<String> commands = List.of("lobby", "hub");
         @Comment("""
             Send Mode Formula
@@ -55,6 +73,7 @@ public class Configuration implements Section {
 
     @ConfigSerializable
     public static class CommandToServerHandler {
+        @Comment("Configuration format <command>=<server>")
         private Map<String, String> commandToServerAliases = Map.of(
                 "lobby", "lobby1",
                 "hub", "lobby2"
