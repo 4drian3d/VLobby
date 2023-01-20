@@ -47,6 +47,9 @@ tasks{
     build {
         dependsOn(shadowJar)
     }
+    clean {
+        delete("run")
+    }
     runVelocity {
         velocityVersion(libs.versions.velocity.get())
     }
