@@ -14,6 +14,8 @@ import me.adrianed.vlobby.configuration.loadConfig
 import me.adrianed.vlobby.enums.Handler
 import me.adrianed.vlobby.utils.Constants
 import me.adrianed.vlobby.utils.loadDependencies
+import me.adrianed.vlobby.utils.loadMetrics
+import org.bstats.velocity.Metrics
 import org.slf4j.Logger
 import java.nio.file.Path
 
@@ -29,7 +31,8 @@ import java.nio.file.Path
 class VLobby @Inject constructor(
     val logger: Logger,
     @DataDirectory val pluginPath : Path,
-    val proxy : ProxyServer
+    val proxy : ProxyServer,
+    private val metrics: Metrics.Factory
 ) {
 
     lateinit var config : Configuration
@@ -50,10 +53,12 @@ class VLobby @Inject constructor(
             logger.info("Correctly loaded Configuration")
             logger.info("Command Handler: $handler")
 
-            when (handler!!) {
+            when (handler) {
                 Handler.REGULAR -> logger.info("Lobby Servers: ${commandHandler.servers}")
                 Handler.COMMAND_TO_SERVER -> logger.info("Lobby Commands: ${commandHandler.servers}")
             }
+
+            loadMetrics(this, metrics)
         } catch(ex: Exception) {
             logger.error("Cannot load plugin configuration", ex)
             logger.error("Disabling features")
