@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly(kotlin("stdlib", "1.7.21"))
+    compileOnly(kotlin("stdlib", "1.8.0"))
     compileOnly(libs.velocity)
     kapt(libs.velocity)
     compileOnly(libs.configurate)
@@ -50,9 +50,6 @@ tasks{
     runVelocity {
         velocityVersion(libs.versions.velocity.get())
     }
-    compileKotlin {
-        kotlinOptions.jvmTarget = "17"
-    }
     shadowJar {
         arrayOf(
             "org.spongepowered",
@@ -68,10 +65,6 @@ tasks{
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(11))
     }
-}
-
-java {
-    disableAutoTargetJvm()
 }
