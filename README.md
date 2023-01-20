@@ -14,3 +14,7 @@ Lobby plugin for Velocity
 ## Commands
 
 You can customize the commands to use from the configuration, but by default, the command is `/lobby` with an alias of `/hub`
+
+## Downloads
+
+Download it from [Modrinth](https://modrinth.com/plugin/vlobby)
