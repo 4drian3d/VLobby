@@ -8,6 +8,7 @@ import com.velocitypowered.api.permission.Tristate
 import com.velocitypowered.api.proxy.Player
 import me.adrianed.vlobby.VLobby
 import me.adrianed.vlobby.extensions.nil
+import me.adrianed.vlobby.extensions.sendMiniMessage
 
 class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
     private lateinit var serverMap: Map<String, String>
@@ -32,7 +33,15 @@ class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
             .requires { it.getPermissionValue("vlobby.command.${entry.key}") != Tristate.FALSE && it is Player }
             .executes {
                 val player = it.source as Player
-                connectionRequest(player, plugin.proxy.getServer(entry.value).nil!!)
+                if (player.currentServer.nil?.serverInfo?.name == entry.value) {
+                    player.sendMiniMessage(plugin.messages.alreadyInThisLobby)
+                    return@executes Command.SINGLE_SUCCESS
+                }
+                plugin.proxy.getServer(entry.value)
+                    .ifPresentOrElse(
+                        { server -> connectionRequest(player, server) },
+                        { player.sendMiniMessage(plugin.messages.notAvailableServerMessage) }
+                    )
                 Command.SINGLE_SUCCESS
             }.build()
         val brigadierCommand = BrigadierCommand(command)
