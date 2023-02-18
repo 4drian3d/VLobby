@@ -43,7 +43,7 @@ class VLobby @Inject constructor(
 
     @Subscribe
     fun onProxyInitialization(event: ProxyInitializeEvent) {
-        loadDependencies(this, logger, proxy.pluginManager, pluginPath)
+        loadDependencies(this, proxy.pluginManager)
         try {
             config = loadConfig(pluginPath)
             messages = loadConfig(pluginPath)

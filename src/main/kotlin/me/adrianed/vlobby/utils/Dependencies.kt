@@ -3,13 +3,12 @@ package me.adrianed.vlobby.utils
 import com.velocitypowered.api.plugin.PluginManager
 import me.adrianed.vlobby.VLobby
 import net.byteflux.libby.Library
-import org.slf4j.Logger
-import java.nio.file.Path
 import net.byteflux.libby.VelocityLibraryManager
 import net.byteflux.libby.relocation.Relocation
 
-fun loadDependencies(plugin: VLobby, logger: Logger, manager: PluginManager, path: Path) {
-    val libraryManager = VelocityLibraryManager(logger, path, manager, plugin, "libs")
+fun loadDependencies(plugin: VLobby, pluginManager: PluginManager) {
+    val libraryManager = VelocityLibraryManager(
+        plugin.logger, plugin.pluginPath, pluginManager, plugin, "libs")
     val configurateRelocation = Relocation(
             "org{}spongepowered",
             "me.adrianed.vlobby.libs.org{}spongepowered"

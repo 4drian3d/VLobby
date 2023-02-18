@@ -6,7 +6,7 @@ import me.adrianed.vlobby.VLobby
 import me.adrianed.vlobby.extensions.sendMiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 
-abstract class CommandHandler(protected val plugin: VLobby) {
+sealed class CommandHandler(protected val plugin: VLobby) {
     abstract fun register()
 
     abstract fun unregister()
