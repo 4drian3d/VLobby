@@ -1,6 +1,7 @@
 package me.adrianed.vlobby.extensions
 
 import com.velocitypowered.api.command.CommandSource
+import com.velocitypowered.api.permission.Tristate
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import java.util.Optional
@@ -12,3 +13,5 @@ fun CommandSource.sendMiniMessage(message: String, resolver: TagResolver = TagRe
 
 val <T: Any> Optional<T>.nil: T?
     get() = orElse(null)
+
+fun CommandSource.notNegatePermission(permission: String) = getPermissionValue(permission) != Tristate.FALSE

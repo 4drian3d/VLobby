@@ -63,8 +63,12 @@ tasks{
             relocate(it, "me.adrianed.vlobby.libs.$it")
         }
     }
+    compileKotlin {
+        kotlinOptions {
+            languageVersion = "1.8"
+        }
+    }
 }
-
 
 kotlin {
     jvmToolchain {

@@ -1,13 +1,13 @@
 package me.adrianed.vlobby.commands
 
 import com.mojang.brigadier.Command
-import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.LiteralArgumentBuilder.literal
 import com.velocitypowered.api.command.BrigadierCommand
 import com.velocitypowered.api.command.CommandSource
-import com.velocitypowered.api.permission.Tristate
 import com.velocitypowered.api.proxy.Player
 import me.adrianed.vlobby.VLobby
 import me.adrianed.vlobby.extensions.nil
+import me.adrianed.vlobby.extensions.notNegatePermission
 import me.adrianed.vlobby.extensions.sendMiniMessage
 
 class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
@@ -29,8 +29,8 @@ class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
     }
 
     private fun internalRegister(entry: Map.Entry<String, String>) {
-        val command = LiteralArgumentBuilder.literal<CommandSource>(entry.key)
-            .requires { it.getPermissionValue("vlobby.command.${entry.key}") != Tristate.FALSE && it is Player }
+        val command = literal<CommandSource>(entry.key)
+            .requires { it.notNegatePermission("vlobby.command.${entry.key}") && it is Player }
             .executes {
                 val player = it.source as Player
                 if (player.currentServer.nil?.serverInfo?.name == entry.value) {

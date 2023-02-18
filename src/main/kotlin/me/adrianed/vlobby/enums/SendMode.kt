@@ -2,14 +2,13 @@ package me.adrianed.vlobby.enums
 
 import com.velocitypowered.api.proxy.server.RegisteredServer
 import me.adrianed.vlobby.VLobby
-import java.util.*
 
 enum class SendMode {
     RANDOM {
         override fun getServer(plugin: VLobby): RegisteredServer? {
             val servers = plugin.config.regularHandler.lobbyServers
             for (i in servers.indices) {
-                val serverName = servers[rm.nextInt(servers.size - 1)]
+                val serverName = servers.random()
                 val server = plugin.proxy.getServer(serverName)
                 if (server.isPresent) return server.get()
             }
@@ -47,6 +46,4 @@ enum class SendMode {
     };
 
     abstract fun getServer(plugin: VLobby) : RegisteredServer?
-
-    val rm = Random()
 }
