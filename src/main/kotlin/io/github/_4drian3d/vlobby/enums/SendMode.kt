@@ -1,7 +1,7 @@
-package me.adrianed.vlobby.enums
+package io.github._4drian3d.vlobby.enums
 
 import com.velocitypowered.api.proxy.server.RegisteredServer
-import me.adrianed.vlobby.VLobby
+import io.github._4drian3d.vlobby.VLobby
 
 enum class SendMode {
     RANDOM {

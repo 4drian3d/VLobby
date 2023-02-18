@@ -1,4 +1,4 @@
-package me.adrianed.vlobby.configuration
+package io.github._4drian3d.vlobby.configuration
 
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader
 import java.nio.file.Path

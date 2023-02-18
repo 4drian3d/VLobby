@@ -1,9 +1,9 @@
-package me.adrianed.vlobby.enums
+package io.github._4drian3d.vlobby.enums
 
-import me.adrianed.vlobby.VLobby
-import me.adrianed.vlobby.commands.CommandHandler
-import me.adrianed.vlobby.commands.RegularHandler
-import me.adrianed.vlobby.commands.CommandToServerHandler
+import io.github._4drian3d.vlobby.VLobby
+import io.github._4drian3d.vlobby.commands.CommandHandler
+import io.github._4drian3d.vlobby.commands.RegularHandler
+import io.github._4drian3d.vlobby.commands.CommandToServerHandler
 
 enum class Handler {
     REGULAR {

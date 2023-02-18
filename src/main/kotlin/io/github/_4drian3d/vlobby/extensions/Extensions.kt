@@ -1,4 +1,4 @@
-package me.adrianed.vlobby.extensions
+package io.github._4drian3d.vlobby.extensions
 
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.permission.Tristate

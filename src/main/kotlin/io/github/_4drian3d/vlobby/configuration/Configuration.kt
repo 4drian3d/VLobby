@@ -1,7 +1,7 @@
-package me.adrianed.vlobby.configuration
+package io.github._4drian3d.vlobby.configuration
 
-import me.adrianed.vlobby.enums.Handler
-import me.adrianed.vlobby.enums.SendMode
+import io.github._4drian3d.vlobby.enums.Handler
+import io.github._4drian3d.vlobby.enums.SendMode
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import org.spongepowered.configurate.objectmapping.meta.Comment
 

@@ -33,7 +33,7 @@ val url: String by project
 val id: String by project
 
 blossom {
-    replaceTokenIn("src/main/kotlin/me/adrianed/vlobby/utils/Constants.kt")
+    replaceTokenIn("src/main/kotlin/io/github/_4drian3d/vlobby/utils/Constants.kt")
     replaceToken("{name}", rootProject.name)
     replaceToken("{id}", id)
     replaceToken("{version}", project.version)

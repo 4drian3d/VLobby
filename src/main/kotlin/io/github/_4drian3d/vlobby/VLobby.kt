@@ -1,4 +1,4 @@
-package me.adrianed.vlobby
+package io.github._4drian3d.vlobby
 
 import com.google.inject.Inject
 import com.velocitypowered.api.event.Subscribe
@@ -7,14 +7,14 @@ import com.velocitypowered.api.plugin.Dependency
 import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
-import me.adrianed.vlobby.commands.CommandHandler
-import me.adrianed.vlobby.configuration.Configuration
-import me.adrianed.vlobby.configuration.Messages
-import me.adrianed.vlobby.configuration.loadConfig
-import me.adrianed.vlobby.enums.Handler
-import me.adrianed.vlobby.utils.Constants
-import me.adrianed.vlobby.utils.loadDependencies
-import me.adrianed.vlobby.utils.loadMetrics
+import io.github._4drian3d.vlobby.commands.CommandHandler
+import io.github._4drian3d.vlobby.configuration.Configuration
+import io.github._4drian3d.vlobby.configuration.Messages
+import io.github._4drian3d.vlobby.configuration.loadConfig
+import io.github._4drian3d.vlobby.enums.Handler
+import io.github._4drian3d.vlobby.utils.Constants
+import io.github._4drian3d.vlobby.utils.loadDependencies
+import io.github._4drian3d.vlobby.utils.loadMetrics
 import org.bstats.velocity.Metrics
 import org.slf4j.Logger
 import java.nio.file.Path

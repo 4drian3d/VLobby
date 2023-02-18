@@ -1,6 +1,6 @@
-package me.adrianed.vlobby.utils
+package io.github._4drian3d.vlobby.utils
 
-import me.adrianed.vlobby.VLobby
+import io.github._4drian3d.vlobby.VLobby
 import org.bstats.charts.SimplePie
 import org.bstats.velocity.Metrics
 

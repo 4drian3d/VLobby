@@ -1,4 +1,4 @@
-package me.adrianed.vlobby.utils
+package io.github._4drian3d.vlobby.utils
 
 class Constants {
     companion object {

@@ -1,15 +1,15 @@
-package me.adrianed.vlobby.commands
+package io.github._4drian3d.vlobby.commands
 
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder.literal
 import com.velocitypowered.api.command.BrigadierCommand
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.proxy.Player
-import me.adrianed.vlobby.VLobby
-import me.adrianed.vlobby.enums.SendMode
-import me.adrianed.vlobby.extensions.nil
-import me.adrianed.vlobby.extensions.notNegatePermission
-import me.adrianed.vlobby.extensions.sendMiniMessage
+import io.github._4drian3d.vlobby.VLobby
+import io.github._4drian3d.vlobby.enums.SendMode
+import io.github._4drian3d.vlobby.extensions.nil
+import io.github._4drian3d.vlobby.extensions.notNegatePermission
+import io.github._4drian3d.vlobby.extensions.sendMiniMessage
 
 class RegularHandler(plugin: VLobby): CommandHandler(plugin) {
     override lateinit var servers: List<String>

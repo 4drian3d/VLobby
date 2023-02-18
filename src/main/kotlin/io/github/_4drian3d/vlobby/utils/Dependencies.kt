@@ -1,7 +1,7 @@
-package me.adrianed.vlobby.utils
+package io.github._4drian3d.vlobby.utils
 
 import com.velocitypowered.api.plugin.PluginManager
-import me.adrianed.vlobby.VLobby
+import io.github._4drian3d.vlobby.VLobby
 import net.byteflux.libby.Library
 import net.byteflux.libby.VelocityLibraryManager
 import net.byteflux.libby.relocation.Relocation

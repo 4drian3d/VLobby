@@ -1,9 +1,9 @@
-package me.adrianed.vlobby.commands
+package io.github._4drian3d.vlobby.commands
 
 import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.server.RegisteredServer
-import me.adrianed.vlobby.VLobby
-import me.adrianed.vlobby.extensions.sendMiniMessage
+import io.github._4drian3d.vlobby.VLobby
+import io.github._4drian3d.vlobby.extensions.sendMiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 
 sealed class CommandHandler(protected val plugin: VLobby) {
