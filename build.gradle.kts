@@ -60,7 +60,7 @@ tasks{
             "io.leangen.geantyref",
             "org.bstats"
         ).forEach {
-            relocate(it, "me.adrianed.vlobby.libs.$it")
+            relocate(it, "${rootProject.group}.libs.$it")
         }
     }
     compileKotlin {
