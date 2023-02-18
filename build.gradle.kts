@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.7.22"
-    kotlin("kapt") version "1.7.22"
+    kotlin("jvm") version "1.8.10"
+    kotlin("kapt") version "1.8.10"
     alias(libs.plugins.blossom)
     alias(libs.plugins.runvelocity)
     alias(libs.plugins.shadow)
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly(kotlin("stdlib", "1.8.0"))
+    compileOnly(kotlin("stdlib", "1.8.10"))
     compileOnly(libs.velocity)
     kapt(libs.velocity)
     compileOnly(libs.configurate)
