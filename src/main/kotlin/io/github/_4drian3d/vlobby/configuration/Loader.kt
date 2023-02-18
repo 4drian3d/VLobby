@@ -7,11 +7,7 @@ import kotlin.jvm.Throws
 @Throws(Exception::class)
 inline fun <reified S: Section> loadConfig(path: Path): S {
     val loader = HoconConfigurationLoader.builder()
-        .defaultOptions { opts ->
-            opts
-                .shouldCopyDefaults(true)
-                .header("VLobby | by 4drian3d\n")
-        }
+        .defaultOptions { it.shouldCopyDefaults(true).header("VLobby | by 4drian3d\n") }
         .path(path.resolve("${S::class.simpleName!!.lowercase()}.conf"))
         .build()
 

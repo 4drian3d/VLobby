@@ -9,14 +9,8 @@ import net.byteflux.libby.relocation.Relocation
 fun loadDependencies(plugin: VLobby, pluginManager: PluginManager) {
     val libraryManager = VelocityLibraryManager(
         plugin.logger, plugin.pluginPath, pluginManager, plugin, "libs")
-    val configurateRelocation = Relocation(
-            "org{}spongepowered",
-            "io.github._4drian3d.vlobby.libs.org{}spongepowered"
-        )
-    val geantyrefRelocation = Relocation(
-            "io{}leangen{}geantyref",
-            "io.github._4drian3d.libs.io{}leangen{}geantyref"
-        )
+    val configurateRelocation = relocate("org{}spongepowered")
+    val geantyrefRelocation = relocate("io{}leangen{}geantyref")
     val hocon = Library.builder()
         .groupId("org{}spongepowered")
         .artifactId("configurate-hocon")
@@ -42,6 +36,8 @@ fun loadDependencies(plugin: VLobby, pluginManager: PluginManager) {
         .build()
     libraryManager.addMavenCentral()
     libraryManager.loadLibrary(geantyref)
-    libraryManager.loadLibrary(hocon)
     libraryManager.loadLibrary(confCore)
+    libraryManager.loadLibrary(hocon)
 }
+
+private fun relocate(pkg: String) = Relocation(pkg, "io.github._4drian3d.vlobby.libs.$pkg")
