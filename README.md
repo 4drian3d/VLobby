@@ -13,7 +13,14 @@ Lobby plugin for Velocity
 
 ## Commands
 
-You can customize the commands to use from the configuration, but by default, the command is `/lobby` with an alias of `/hub`
+In VLobby there are 2 CommandHandlers
+
+### REGULAR
+It is the default operation of VLobby, you can set as many commands as you want to teleport to a group of Lobby servers (or to a single Lobby if you have only one Lobby).
+
+### COMMAND_TO_SERVER
+With this CommandHandler you can teleport to any server using its name as command.
+For example, to teleport to the `survival` server, you would require the `vlobby.command.survival` permission and you would use the `/survival` command
 
 ## Downloads
 
