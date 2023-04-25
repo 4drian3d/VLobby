@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly(kotlin("stdlib", "1.8.20"))
+    compileOnly(kotlin("stdlib", "1.8.21"))
     compileOnly(libs.velocity)
     kapt(libs.velocity)
     compileOnly(libs.configurate)
