@@ -25,7 +25,7 @@ class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
     }
 
     override fun unregister() {
-        serverMap.forEach { plugin.proxy.commandManager.unregister(it.key) }
+        serverMap.forEach { plugin.commandManager.unregister(it.key) }
     }
 
     private fun internalRegister(entry: Map.Entry<String, String>) {
@@ -45,7 +45,7 @@ class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
                 Command.SINGLE_SUCCESS
             }.build()
 
-        with(plugin.proxy.commandManager) {
+        with(plugin.commandManager) {
             val command = BrigadierCommand(node)
             val meta = metaBuilder(command)
                 .plugin(plugin)

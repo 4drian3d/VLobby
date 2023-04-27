@@ -1,13 +1,17 @@
 package io.github._4drian3d.vlobby
 
 import com.google.inject.Inject
+import com.google.inject.Injector
+import com.velocitypowered.api.command.CommandManager
 import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent
 import com.velocitypowered.api.plugin.Dependency
 import com.velocitypowered.api.plugin.Plugin
+import com.velocitypowered.api.plugin.PluginManager
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 import io.github._4drian3d.vlobby.commands.CommandHandler
+import io.github._4drian3d.vlobby.commands.MainCommand
 import io.github._4drian3d.vlobby.configuration.Configuration
 import io.github._4drian3d.vlobby.configuration.Messages
 import io.github._4drian3d.vlobby.configuration.loadConfig
@@ -18,6 +22,7 @@ import io.github._4drian3d.vlobby.utils.loadMetrics
 import org.bstats.velocity.Metrics
 import org.slf4j.Logger
 import java.nio.file.Path
+import java.util.concurrent.CompletableFuture
 
 @Plugin(
     id = Constants.ID,
@@ -35,7 +40,10 @@ class VLobby @Inject constructor(
     val logger: Logger,
     @DataDirectory val pluginPath : Path,
     val proxy : ProxyServer,
-    private val metrics: Metrics.Factory
+    val commandManager: CommandManager,
+    private val pluginManager: PluginManager,
+    private val metrics: Metrics.Factory,
+    private val injector: Injector,
 ) {
 
     lateinit var config : Configuration
@@ -46,7 +54,7 @@ class VLobby @Inject constructor(
 
     @Subscribe
     fun onProxyInitialization(event: ProxyInitializeEvent) {
-        loadDependencies(this, proxy.pluginManager)
+        loadDependencies(this, pluginManager)
         try {
             config = loadConfig(pluginPath)
             messages = loadConfig(pluginPath)
@@ -55,6 +63,7 @@ class VLobby @Inject constructor(
             commandHandler.register()
             logger.info("Correctly loaded Configuration")
             logger.info("Command Handler: $handler")
+            injector.getInstance(MainCommand::class.java).register()
 
             when (handler) {
                 Handler.REGULAR -> logger.info("Lobby Servers: ${commandHandler.servers}")
@@ -68,11 +77,11 @@ class VLobby @Inject constructor(
         }
     }
 
-    fun reload() {
+    fun reload() = CompletableFuture.runAsync {
         commandHandler.unregister()
         config = loadConfig(pluginPath)
         messages = loadConfig(pluginPath)
         commandHandler = config.commandHandler.createInstance(this)
         commandHandler.register()
-    }
+    }!!
 }
