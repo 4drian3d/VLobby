@@ -6,9 +6,9 @@ import com.velocitypowered.api.command.BrigadierCommand
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.proxy.Player
 import io.github._4drian3d.vlobby.VLobby
-import io.github._4drian3d.vlobby.extensions.nil
 import io.github._4drian3d.vlobby.extensions.notNegatePermission
 import io.github._4drian3d.vlobby.extensions.sendMiniMessage
+import kotlin.jvm.optionals.getOrNull
 
 class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
     private lateinit var serverMap: Map<String, String>
@@ -29,11 +29,11 @@ class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
     }
 
     private fun internalRegister(entry: Map.Entry<String, String>) {
-        val command = literal<CommandSource>(entry.key)
+        val node = literal<CommandSource>(entry.key)
             .requires { it.notNegatePermission("vlobby.command.${entry.key}") && it is Player }
             .executes {
                 val player = it.source as Player
-                if (player.currentServer.nil?.serverInfo?.name == entry.value) {
+                if (player.currentServer.getOrNull()?.serverInfo?.name == entry.value) {
                     player.sendMiniMessage(plugin.messages.alreadyInThisLobby)
                     return@executes Command.SINGLE_SUCCESS
                 }
@@ -44,10 +44,13 @@ class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
                     )
                 Command.SINGLE_SUCCESS
             }.build()
-        val brigadierCommand = BrigadierCommand(command)
 
-        val meta = plugin.proxy.commandManager.metaBuilder(brigadierCommand).plugin(plugin).build()
-        plugin.proxy.commandManager.register(meta, brigadierCommand)
+        with(plugin.proxy.commandManager) {
+            val command = BrigadierCommand(node)
+            val meta = metaBuilder(command)
+                .plugin(plugin)
+                .build()
+            register(meta, command)
+        }
     }
-
 }

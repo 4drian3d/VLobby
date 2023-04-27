@@ -7,9 +7,9 @@ import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.proxy.Player
 import io.github._4drian3d.vlobby.VLobby
 import io.github._4drian3d.vlobby.enums.SendMode
-import io.github._4drian3d.vlobby.extensions.nil
 import io.github._4drian3d.vlobby.extensions.notNegatePermission
 import io.github._4drian3d.vlobby.extensions.sendMiniMessage
+import kotlin.jvm.optionals.getOrNull
 
 class RegularHandler(plugin: VLobby): CommandHandler(plugin) {
     override lateinit var servers: List<String>
@@ -19,7 +19,7 @@ class RegularHandler(plugin: VLobby): CommandHandler(plugin) {
         if (servers.isEmpty()) {
             return
         }
-        val lobbyCommand = literal<CommandSource>(servers[0])
+        val node = literal<CommandSource>(servers[0])
             .requires { it.notNegatePermission("vlobby.command") && it is Player }
             .executes { cmd ->
                 val source = cmd.source as Player
@@ -33,7 +33,7 @@ class RegularHandler(plugin: VLobby): CommandHandler(plugin) {
                     source.sendMiniMessage(plugin.messages.notAvailableServerMessage)
                     return@executes Command.SINGLE_SUCCESS
                 }
-                if (lobbyToSend.serverInfo.name == source.currentServer.nil?.serverInfo?.name) {
+                if (lobbyToSend.serverInfo.name == source.currentServer.getOrNull()?.serverInfo?.name) {
                     source.sendMiniMessage(plugin.messages.alreadyInThisLobby)
                     return@executes Command.SINGLE_SUCCESS
                 }
@@ -41,19 +41,19 @@ class RegularHandler(plugin: VLobby): CommandHandler(plugin) {
                 Command.SINGLE_SUCCESS
             }
             .build()
-        val bCommand = BrigadierCommand(lobbyCommand)
-        val manager = plugin.proxy.commandManager
-        val builder = manager.metaBuilder(bCommand).plugin(plugin).also {
-            if (servers.size > 1) it.aliases(*servers.toTypedArray().copyOfRange(1, servers.size))
-        }
 
-        manager.register(builder.build(), bCommand)
+        with(plugin.proxy.commandManager) {
+            val command = BrigadierCommand(node)
+            val builder = metaBuilder(command).plugin(plugin).also {
+                if (servers.size > 1) it.aliases(*servers.toTypedArray().copyOfRange(1, servers.size))
+            }
+            register(builder.build(), command)
+        }
     }
 
     override fun unregister() {
-        val manager = plugin.proxy.commandManager
-        val meta = manager.getCommandMeta(servers[0])
-        manager.unregister(meta)
+        with(plugin.proxy.commandManager) {
+            unregister(getCommandMeta(servers[0]))
+        }
     }
-
 }

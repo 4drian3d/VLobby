@@ -6,7 +6,6 @@ import io.github.miniplaceholders.api.MiniPlaceholders
 import io.github.miniplaceholders.kotlin.applyIfNotEmpty
 import net.kyori.adventure.text.minimessage.MiniMessage.miniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
-import java.util.Optional
 
 val hasMiniPlaceholders by lazy {
     try {
@@ -28,8 +27,5 @@ fun CommandSource.sendMiniMessage(message: String, resolver: TagResolver = TagRe
         this.sendMessage(miniMessage().deserialize(message, resolver))
     }
 }
-
-val <T: Any> Optional<T>.nil: T?
-    get() = orElse(null)
 
 fun CommandSource.notNegatePermission(permission: String) = getPermissionValue(permission) != Tristate.FALSE
