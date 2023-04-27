@@ -4,6 +4,7 @@ import io.github._4drian3d.vlobby.enums.Handler
 import io.github._4drian3d.vlobby.enums.SendMode
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import org.spongepowered.configurate.objectmapping.meta.Comment
+import java.util.concurrent.TimeUnit
 
 @ConfigSerializable
 class Configuration: Section {
@@ -31,6 +32,8 @@ class Configuration: Section {
     @Comment("Configure customized commands for each of your lobbies")
     var commandToServerHandler = CommandToServerHandler()
 
+    var cooldown = Cooldown()
+
     @ConfigSerializable
     class RegularHandler {
         @Comment("List of your Lobby servers")
@@ -55,5 +58,13 @@ class Configuration: Section {
             "lobby" to "lobby1",
             "hub" to "lobby2"
         )
+    }
+
+    @ConfigSerializable
+    class Cooldown {
+        var unit = TimeUnit.SECONDS
+        var time: Long = 5
+
+        var cooldownMessage = "You can't go to the lobby so soon, wait <time> seconds"
     }
 }
