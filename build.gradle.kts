@@ -7,26 +7,24 @@ plugins {
 }
 
 repositories {
-    maven("https://repo.papermc.io/repository/maven-public/") {
+    maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.deltapvp.net/") {
         content {
-            includeGroup("com.velocitypowered")
+            includeGroup("org.mineorbit.libby")
         }
     }
-    maven("https://jitpack.io") {
-        content {
-            includeGroup("com.github.AlessioDP.libby")
-        }
-    }
-    mavenCentral()
 }
 
 dependencies {
-    compileOnly(kotlin("stdlib", "1.8.21"))
+    compileOnly(kotlin("stdlib"))
     compileOnly(libs.velocity)
     kapt(libs.velocity)
     compileOnly(libs.configurate)
     implementation(libs.libby)
     implementation(libs.bstats)
+
+    compileOnly(libs.miniplaceholders.api)
+    compileOnly(libs.miniplaceholders.kotlin)
 }
 
 val url: String by project
@@ -72,6 +70,6 @@ tasks{
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }

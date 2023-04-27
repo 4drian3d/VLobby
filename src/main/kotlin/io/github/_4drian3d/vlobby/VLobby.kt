@@ -26,7 +26,10 @@ import java.nio.file.Path
     description = Constants.DESCRIPTION,
     url = Constants.URL,
     authors = ["4drian3d"],
-    dependencies = [Dependency(id = "mckotlin-velocity")]
+    dependencies = [
+        Dependency(id = "mckotlin-velocity"),
+        Dependency(id = "miniplaceholders", optional = true)
+    ]
 )
 class VLobby @Inject constructor(
     val logger: Logger,
