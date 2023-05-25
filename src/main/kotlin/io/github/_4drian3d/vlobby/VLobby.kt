@@ -17,6 +17,7 @@ import io.github._4drian3d.vlobby.configuration.Messages
 import io.github._4drian3d.vlobby.configuration.loadConfig
 import io.github._4drian3d.vlobby.enums.Handler
 import io.github._4drian3d.vlobby.utils.Constants
+import io.github._4drian3d.vlobby.utils.CooldownManager
 import io.github._4drian3d.vlobby.utils.loadDependencies
 import io.github._4drian3d.vlobby.utils.loadMetrics
 import org.bstats.velocity.Metrics
@@ -64,6 +65,7 @@ class VLobby @Inject constructor(
             logger.info("Correctly loaded Configuration")
             logger.info("Command Handler: $handler")
             injector.getInstance(MainCommand::class.java).register()
+            CooldownManager.reload(config)
 
             when (handler) {
                 Handler.REGULAR -> logger.info("Lobby Servers: ${commandHandler.servers}")

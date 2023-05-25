@@ -8,6 +8,7 @@ import com.velocitypowered.api.command.CommandManager
 import com.velocitypowered.api.command.CommandSource
 import io.github._4drian3d.vlobby.VLobby
 import io.github._4drian3d.vlobby.extensions.sendMiniMessage
+import io.github._4drian3d.vlobby.utils.CooldownManager
 
 class MainCommand @Inject constructor(
     private val plugin: VLobby,
@@ -24,6 +25,7 @@ class MainCommand @Inject constructor(
                             if (ex == null) "<green>Correctly reloaded configuration"
                             else "<red>An error occurred while reloading the configuration, check the console"
                         )
+                        CooldownManager.reload(plugin.config)
                     }
                     Command.SINGLE_SUCCESS
                 }

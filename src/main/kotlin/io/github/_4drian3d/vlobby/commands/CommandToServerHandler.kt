@@ -8,6 +8,8 @@ import com.velocitypowered.api.proxy.Player
 import io.github._4drian3d.vlobby.VLobby
 import io.github._4drian3d.vlobby.extensions.notNegatePermission
 import io.github._4drian3d.vlobby.extensions.sendMiniMessage
+import io.github._4drian3d.vlobby.utils.CooldownManager
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import kotlin.jvm.optionals.getOrNull
 
 class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
@@ -33,6 +35,15 @@ class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
             .requires { it.notNegatePermission("vlobby.command.${entry.key}") && it is Player }
             .executes {
                 val player = it.source as Player
+                val cooldown = CooldownManager.cooldown(player)
+                if (cooldown != 0L) {
+                    player.sendMiniMessage(
+                            plugin.config.cooldown.cooldownMessage,
+                            Placeholder.unparsed("time", cooldown.toString()),
+                            Placeholder.unparsed("server", entry.value)
+                    )
+                    return@executes Command.SINGLE_SUCCESS
+                }
                 if (player.currentServer.getOrNull()?.serverInfo?.name == entry.value) {
                     player.sendMiniMessage(plugin.messages.alreadyInThisLobby)
                     return@executes Command.SINGLE_SUCCESS

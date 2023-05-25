@@ -9,6 +9,8 @@ import io.github._4drian3d.vlobby.VLobby
 import io.github._4drian3d.vlobby.enums.SendMode
 import io.github._4drian3d.vlobby.extensions.notNegatePermission
 import io.github._4drian3d.vlobby.extensions.sendMiniMessage
+import io.github._4drian3d.vlobby.utils.CooldownManager
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import kotlin.jvm.optionals.getOrNull
 
 class RegularHandler(plugin: VLobby): CommandHandler(plugin) {
@@ -24,6 +26,14 @@ class RegularHandler(plugin: VLobby): CommandHandler(plugin) {
             .executes { cmd ->
                 val source = cmd.source as Player
                 val mode = plugin.config.regularHandler.sendMode
+                val cooldown = CooldownManager.cooldown(source)
+                if (cooldown != 0L) {
+                    source.sendMiniMessage(
+                            plugin.config.cooldown.cooldownMessage,
+                            Placeholder.unparsed("time", cooldown.toString())
+                    )
+                    return@executes Command.SINGLE_SUCCESS
+                }
                 val lobbyToSend = mode.getServer(plugin) ?:
                     if (mode == SendMode.RANDOM) SendMode.FIRST_AVAILABLE.getServer(plugin)
                     else SendMode.RANDOM.getServer(plugin)
