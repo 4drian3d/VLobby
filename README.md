@@ -5,6 +5,7 @@ Lobby plugin for Velocity
 ## Requirements
 - Velocity 3.1.2|3.2.0+
 - Java 11+
+- [MCKotlin Velocity](https://modrinth.com/plugin/mckotlin)
 
 ## Features
 - Multi lobby support
