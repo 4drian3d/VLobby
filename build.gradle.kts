@@ -1,6 +1,7 @@
 plugins {
-    kotlin("jvm") version "1.8.22"
-    kotlin("kapt") version "1.8.22"
+    kotlin("jvm") version "1.9.10"
+    kotlin("kapt") version "1.9.10"
+    alias(libs.plugins.idea.ext)
     alias(libs.plugins.blossom)
     alias(libs.plugins.runvelocity)
     alias(libs.plugins.shadow)
@@ -27,21 +28,19 @@ dependencies {
     compileOnly(libs.miniplaceholders.kotlin)
 }
 
-val url: String by project
-val id: String by project
-
-blossom {
-    replaceTokenIn("src/main/kotlin/io/github/_4drian3d/vlobby/utils/Constants.kt")
-    replaceToken("{name}", rootProject.name)
-    replaceToken("{id}", id)
-    replaceToken("{version}", project.version)
-    replaceToken("{description}", project.description)
-    replaceToken("{url}", url)
-    replaceToken("{configurate}", libs.versions.configurate.get())
-    replaceToken("{geantyref}", libs.versions.geantyref.get())
+sourceSets {
+    main {
+        blossom {
+            kotlinSources {
+                property("version", project.version.toString())
+                property("configurate", libs.versions.configurate.get())
+                property("geantyref", libs.versions.geantyref.get())
+            }
+        }
+    }
 }
 
-tasks{
+tasks {
     build {
         dependsOn(shadowJar)
     }
@@ -63,7 +62,7 @@ tasks{
     }
     compileKotlin {
         kotlinOptions {
-            languageVersion = "1.8"
+            languageVersion = "1.9"
         }
     }
 }
@@ -73,3 +72,4 @@ kotlin {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
+

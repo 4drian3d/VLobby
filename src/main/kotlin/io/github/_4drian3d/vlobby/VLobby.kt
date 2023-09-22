@@ -26,11 +26,11 @@ import java.nio.file.Path
 import java.util.concurrent.CompletableFuture
 
 @Plugin(
-    id = Constants.ID,
-    name = Constants.NAME,
+    id = "vlobby",
+    name = "VLobby",
     version = Constants.VERSION,
-    description = Constants.DESCRIPTION,
-    url = Constants.URL,
+    description = "Velocity Lobby plugin features",
+    url = "https://modrinth.com/plugin/vlobby",
     authors = ["4drian3d"],
     dependencies = [
         Dependency(id = "mckotlin-velocity"),
