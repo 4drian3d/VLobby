@@ -13,7 +13,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import kotlin.jvm.optionals.getOrNull
 
 class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
-    private lateinit var serverMap: Map<String, String>
+    lateinit var serverMap: Map<String, String>
     override val servers: List<String>
         get() = serverMap.toList().map { it.first }
 
@@ -22,8 +22,7 @@ class CommandToServerHandler(plugin: VLobby): CommandHandler(plugin) {
             .commandToServerHandler
             .commandToServerAliases
             .filter { (_, v) -> plugin.proxy.getServer(v).isPresent }
-
-        serverMap.forEach { internalRegister(it) }
+            .onEach(::internalRegister)
     }
 
     override fun unregister() {

@@ -11,6 +11,7 @@ import com.velocitypowered.api.plugin.PluginManager
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 import io.github._4drian3d.vlobby.commands.CommandHandler
+import io.github._4drian3d.vlobby.commands.CommandToServerHandler
 import io.github._4drian3d.vlobby.commands.MainCommand
 import io.github._4drian3d.vlobby.configuration.Configuration
 import io.github._4drian3d.vlobby.configuration.Messages
@@ -69,7 +70,13 @@ class VLobby @Inject constructor(
 
             when (handler) {
                 Handler.REGULAR -> logger.info("Lobby Servers: ${commandHandler.servers}")
-                Handler.COMMAND_TO_SERVER -> logger.info("Lobby Commands: ${commandHandler.servers}")
+                Handler.COMMAND_TO_SERVER -> {
+                    val commandsToServers = (commandHandler as CommandToServerHandler)
+                        .serverMap
+                        .map { "${it.key} -> ${it.value}" }
+                        .reduce { v, v2 -> "$v\n$v2" }
+                    logger.info("Lobby Commands (command->server):\n$commandsToServers")
+                }
             }
 
             loadMetrics(this, metrics)
@@ -85,5 +92,6 @@ class VLobby @Inject constructor(
         messages = loadConfig(pluginPath)
         commandHandler = config.commandHandler.createInstance(this)
         commandHandler.register()
+        CooldownManager.reload(config)
     }!!
 }

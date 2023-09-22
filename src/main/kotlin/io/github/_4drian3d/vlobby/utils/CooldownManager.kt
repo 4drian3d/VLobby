@@ -16,15 +16,23 @@ object CooldownManager {
     fun cooldown(source: Player): Long {
         val now = Instant.now()
         val lastTimeExecuted = cache.get(source.uniqueId) { now }
-
-        return if (now == lastTimeExecuted) 0
-        else configuration.unit.convert(Duration.between(lastTimeExecuted, now))
+        if (now == lastTimeExecuted) {
+            return 0
+        }
+        val duration = Duration.between(lastTimeExecuted, now)
+        return when {
+            duration > cooldownDuration -> {
+                cache.put(source.uniqueId, now)
+                0
+            }
+            else -> configuration.unit.convert(duration)
+        }
     }
 
     fun reload(config: Configuration) {
         this.configuration = config.cooldown
-        this.cooldownDuration = with(configuration) {
-            Duration.ofMillis(unit.toMillis(time))
-        }
+        this.cooldownDuration = with(configuration) { Duration.ofMillis(unit.toMillis(time)) }
     }
 }
+
+
