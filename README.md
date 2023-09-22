@@ -3,8 +3,8 @@
 Lobby plugin for Velocity
 
 ## Requirements
-- Velocity 3.1.2|3.2.0+
-- Java 11+
+- Velocity 3.2.0+
+- Java 17+
 - [MCKotlin Velocity](https://modrinth.com/plugin/mckotlin)
 
 ## Features
@@ -22,6 +22,9 @@ It is the default operation of VLobby, you can set as many commands as you want 
 ### COMMAND_TO_SERVER
 With this CommandHandler you can teleport to any server using its name as command.
 For example, to teleport to the `survival` server, you would require the `vlobby.command.survival` permission and you would use the `/survival` command
+
+## Sponsor
+[![](https://www.bisecthosting.com/partners/custom-banners/6fa909d5-ad2b-42c2-a7ec-1c51f8b6384f.webp)](https://www.bisecthosting.com/4drian3d)
 
 ## Downloads
 
