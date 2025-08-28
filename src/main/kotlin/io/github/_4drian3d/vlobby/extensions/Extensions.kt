@@ -10,7 +10,7 @@ val hasMiniPlaceholders by lazy {
     try {
         Class.forName("io.github.miniplaceholders.api.MiniPlaceholders")
         true
-    } catch (e: ClassNotFoundException) {
+    } catch (_: ClassNotFoundException) {
         false
     }
 }
@@ -19,11 +19,11 @@ fun CommandSource.sendMiniMessage(message: String, vararg resolvers: TagResolver
     if (message.isBlank()) return
     if (hasMiniPlaceholders) {
         val miniResolver = TagResolver.builder()
-                .resolver(MiniPlaceholders.getAudienceGlobalPlaceholders(this))
+                .resolver(MiniPlaceholders.audienceGlobalPlaceholders())
                 .resolvers(*resolvers)
-        this.sendMessage(miniMessage().deserialize(message, miniResolver.build()))
+        this.sendMessage(miniMessage().deserialize(message, this, miniResolver.build()))
     } else {
-        this.sendMessage(miniMessage().deserialize(message, *resolvers))
+        this.sendMessage(miniMessage().deserialize(message, this, *resolvers))
     }
 }
 
