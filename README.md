@@ -3,8 +3,8 @@
 Lobby plugin for Velocity
 
 ## Requirements
-- Velocity 3.2.0+
-- Java 17+
+- Velocity 3.4.0+
+- Java 21+
 - [MCKotlin Velocity](https://modrinth.com/plugin/mckotlin)
 
 ## Features

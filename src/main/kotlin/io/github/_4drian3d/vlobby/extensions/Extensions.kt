@@ -3,6 +3,7 @@ package io.github._4drian3d.vlobby.extensions
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.permission.Tristate
 import io.github.miniplaceholders.api.MiniPlaceholders
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger
 import net.kyori.adventure.text.minimessage.MiniMessage.miniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 
@@ -28,3 +29,5 @@ fun CommandSource.sendMiniMessage(message: String, vararg resolvers: TagResolver
 }
 
 fun CommandSource.notNegatePermission(permission: String) = getPermissionValue(permission) != Tristate.FALSE
+
+fun ComponentLogger.miniInfo(string: String) = info(miniMessage().deserialize(string))

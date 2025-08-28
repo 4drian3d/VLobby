@@ -16,11 +16,12 @@ import io.github._4drian3d.vlobby.configuration.Configuration
 import io.github._4drian3d.vlobby.configuration.Messages
 import io.github._4drian3d.vlobby.configuration.loadConfig
 import io.github._4drian3d.vlobby.enums.Handler
+import io.github._4drian3d.vlobby.extensions.miniInfo
 import io.github._4drian3d.vlobby.utils.Constants
 import io.github._4drian3d.vlobby.utils.CooldownManager
 import io.github._4drian3d.vlobby.utils.loadMetrics
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger
 import org.bstats.velocity.Metrics
-import org.slf4j.Logger
 import java.nio.file.Path
 import java.util.concurrent.CompletableFuture
 
@@ -37,15 +38,15 @@ import java.util.concurrent.CompletableFuture
     ]
 )
 class VLobby @Inject constructor(
-    val logger: Logger,
-    @param:DataDirectory val pluginPath : Path,
-    val proxy : ProxyServer,
+    val logger: ComponentLogger,
+    @param:DataDirectory val pluginPath: Path,
+    val proxy: ProxyServer,
     val commandManager: CommandManager,
     private val metrics: Metrics.Factory,
     private val injector: Injector,
 ) {
 
-    lateinit var config : Configuration
+    lateinit var config: Configuration
         private set
     lateinit var messages: Messages
         private set
@@ -59,24 +60,24 @@ class VLobby @Inject constructor(
             val handler = config.commandHandler
             commandHandler = handler.createInstance(this)
             commandHandler.register()
-            logger.info("Correctly loaded Configuration")
-            logger.info("Command Handler: $handler")
+            logger.miniInfo("<green>Correctly loaded Configuration")
+            logger.miniInfo("<gray>Command Handler: <aqua>$handler")
             injector.getInstance(MainCommand::class.java).register()
             CooldownManager.reload(config)
 
             when (handler) {
-                Handler.REGULAR -> logger.info("Lobby Servers: ${commandHandler.servers}")
+                Handler.REGULAR -> logger.miniInfo("<gray>Lobby Servers: <aqua>${commandHandler.servers}")
                 Handler.COMMAND_TO_SERVER -> {
                     val commandsToServers = (commandHandler as CommandToServerHandler)
                         .serverMap
                         .map { "${it.key} -> ${it.value}" }
                         .reduce { v, v2 -> "$v\n$v2" }
-                    logger.info("Lobby Commands (command->server):\n$commandsToServers")
+                    logger.miniInfo("<gray>Lobby Commands <dark_gray>(<blue>command<dark_gray>-><blue>server<dark_gray>)<gray>:<aqua>\n$commandsToServers")
                 }
             }
 
             loadMetrics(this, metrics)
-        } catch(ex: Exception) {
+        } catch (ex: Exception) {
             logger.error("Cannot load plugin configuration", ex)
             logger.error("Disabling features")
         }

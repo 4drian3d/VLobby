@@ -40,6 +40,9 @@ tasks {
     }
     runVelocity {
         velocityVersion(libs.versions.velocity.get())
+        downloadPlugins {
+            modrinth("mckotlin", "3PY3lTnr")
+        }
     }
     shadowJar {
         archiveBaseName.set(rootProject.name)
