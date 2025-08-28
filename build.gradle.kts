@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.9.22"
-    kotlin("kapt") version "1.9.22"
+    kotlin("jvm") version "2.2.10"
+    kotlin("kapt") version "2.2.10"
     alias(libs.plugins.idea.ext)
     alias(libs.plugins.blossom)
     alias(libs.plugins.runvelocity)
@@ -9,19 +9,12 @@ plugins {
 
 repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://repo.deltapvp.net/") {
-        content {
-            includeGroup("org.mineorbit.libby")
-        }
-    }
 }
 
 dependencies {
     compileOnly(kotlin("stdlib"))
     compileOnly(libs.velocity)
     kapt(libs.velocity)
-    compileOnly(libs.configurate)
-    implementation(libs.libby)
     implementation(libs.bstats)
 
     compileOnly(libs.miniplaceholders.api)
@@ -33,8 +26,6 @@ sourceSets {
         blossom {
             kotlinSources {
                 property("version", project.version.toString())
-                property("configurate", libs.versions.configurate.get())
-                property("geantyref", libs.versions.geantyref.get())
             }
         }
     }
@@ -53,25 +44,13 @@ tasks {
     shadowJar {
         archiveBaseName.set(rootProject.name)
         archiveClassifier.set("")
-        arrayOf(
-            "org.spongepowered",
-            "net.byteflux",
-            "io.leangen.geantyref",
-            "org.bstats"
-        ).forEach {
-            relocate(it, "${rootProject.group}.libs.$it")
-        }
-    }
-    compileKotlin {
-        kotlinOptions {
-            languageVersion = "1.9"
-        }
+        relocate("org.bstats", "${rootProject.group}.libs.org.bstats")
     }
 }
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 

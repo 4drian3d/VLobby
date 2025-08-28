@@ -7,7 +7,7 @@ enum class SendMode {
     RANDOM {
         override fun getServer(plugin: VLobby): RegisteredServer? {
             val servers = plugin.config.regularHandler.lobbyServers
-            for (i in servers.indices) {
+            servers.indices.forEach { _ ->
                 val serverName = servers.random()
                 val server = plugin.proxy.getServer(serverName)
                 if (server.isPresent) return server.get()

@@ -7,7 +7,6 @@ import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent
 import com.velocitypowered.api.plugin.Dependency
 import com.velocitypowered.api.plugin.Plugin
-import com.velocitypowered.api.plugin.PluginManager
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 import io.github._4drian3d.vlobby.commands.CommandHandler
@@ -19,7 +18,6 @@ import io.github._4drian3d.vlobby.configuration.loadConfig
 import io.github._4drian3d.vlobby.enums.Handler
 import io.github._4drian3d.vlobby.utils.Constants
 import io.github._4drian3d.vlobby.utils.CooldownManager
-import io.github._4drian3d.vlobby.utils.loadDependencies
 import io.github._4drian3d.vlobby.utils.loadMetrics
 import org.bstats.velocity.Metrics
 import org.slf4j.Logger
@@ -40,10 +38,9 @@ import java.util.concurrent.CompletableFuture
 )
 class VLobby @Inject constructor(
     val logger: Logger,
-    @DataDirectory val pluginPath : Path,
+    @param:DataDirectory val pluginPath : Path,
     val proxy : ProxyServer,
     val commandManager: CommandManager,
-    private val pluginManager: PluginManager,
     private val metrics: Metrics.Factory,
     private val injector: Injector,
 ) {
@@ -56,7 +53,6 @@ class VLobby @Inject constructor(
 
     @Subscribe
     fun onProxyInitialization(event: ProxyInitializeEvent) {
-        loadDependencies(this, pluginManager)
         try {
             config = loadConfig(pluginPath)
             messages = loadConfig(pluginPath)
